@@ -18,4 +18,26 @@ Exemplo de saída:
 
 ```
 Enter a credit card number: 4111 1111 1111 1111
+<<<<<<< HEAD
 Result: { valid: true, brand: 'Visa', number: '4111111111111111' }
+=======
+Result: { valid: true, brand: 'Visa', number: '4111111111111111' }
+```
+
+---
+
+## 🧩 API disponível
+
+- `validateCard(input)` → `{ valid, brand, number }`
+- `isValidCardNumber(input)` → `true | false`
+- `detectCardBrand(input)` → `string | null`
+
+Exemplo:
+
+```js
+const { validateCard } = require('./src/index');
+console.log(validateCard('4111 1111 1111 1111'));
+```
+
+---
+>>>>>>> 7aafcef7c845a9828a8d66f81ca841af92633a1e
