@@ -14,6 +14,7 @@ function detectCardBrand(input) {
   const prefix2 = cc.slice(0, 2);
   const prefix3 = cc.slice(0, 3);
   const prefix4 = cc.slice(0, 4);
+  const prefix6 = cc.slice(0, 6);
 
   // Visa: starts with 4
   if (startsWith('4')) return 'Visa';
@@ -26,12 +27,14 @@ function detectCardBrand(input) {
   // American Express: 34 or 37
   if (prefix2 === '34' || prefix2 === '37') return 'American Express';
 
-  // Discover: 6011, 65, or 644-649
+  // Discover: 6011, 65, 644-649, or 622126-622925
   const p3 = parseInt(prefix3, 10);
+  const p6 = parseInt(prefix6, 10);
   if (
     prefix4 === '6011' ||
     prefix2 === '65' ||
-    (p3 >= 644 && p3 <= 649)
+    (p3 >= 644 && p3 <= 649) ||
+    (p6 >= 622126 && p6 <= 622925)
   ) {
     return 'Discover';
   }
@@ -39,25 +42,35 @@ function detectCardBrand(input) {
   // Hipercard: usually starts with 6062
   if (prefix4 === '6062') return 'Hipercard';
 
-  // Elo: common prefixes (not exhaustive)
-  const eloPrefixes = [
-    '4011',
-    '4312',
-    '4389',
-    '4514',
-    '4576',
-    '5041',
-    '5066',
-    '5067',
-    '509',
-    '6277',
-    '6362',
-    '6363',
-    '650',
-    '651',
-    '655',
-  ];
-  if (eloPrefixes.some((p) => startsWith(p))) return 'Elo';
+  // EnRoute: 2014 or 2149
+  if (prefix4 === '2014' || prefix4 === '2149') return 'EnRoute';
+
+  // Diners Club: 300-305, 36, 38, 39
+  if (
+    (p3 >= 300 && p3 <= 305) ||
+    prefix2 === '36' ||
+    prefix2 === '38' ||
+    prefix2 === '39'
+  ) {
+    return 'Diners Club';
+  }
+
+  // JCB: 3528-3589
+  if (p4 >= 3528 && p4 <= 3589) return 'JCB';
+
+  // Voyager: typically starts with 8699
+  if (prefix4 === '8699') return 'Voyager';
+
+// Aura: Brazilian card (common prefixes)
+const auraPrefixes = ['5078', '6369', '6390'];
+if (auraPrefixes.some((p) => startsWith(p))) return 'Aura';
+
+const eloPrefixes = [
+  '4011','4312','4389','4514','4576',
+  '5041','5066','5067','509',
+  '6277','6362','6363','650','651','655',
+];
+if (eloPrefixes.some((p) => startsWith(p))) return 'Elo';
 
   return null;
 }
